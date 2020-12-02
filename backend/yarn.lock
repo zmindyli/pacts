@@ -627,7 +627,7 @@ find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-firebase-admin@^9.2.0:
+firebase-admin@^9.4.1:
   version "9.4.1"
   resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-9.4.1.tgz#9b8704320dd8894dfa4acc70c66237323cba12ed"
   integrity sha512-y9r2Mz2x1WTr60YrCDqz8Lw70DlwIvRIieVltP+UdRogkVpfnvyd+bi4D0KPlujW3teqcFPmxuzsXB+DP5vGfQ==

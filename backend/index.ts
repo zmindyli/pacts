@@ -22,7 +22,7 @@ app.get('/', (_, res) => res.send('Hello World!'));
 type User = {
   name: string;
   password: string;
-  groups:
+  groups: Array<Group>
 };
 
 const Users = db.collection('Users');
