@@ -1,6 +1,7 @@
 import admin from 'firebase-admin';
 import express from 'express';
 import bodyParser from 'body-parser';
+import { getgroups } from 'process';
 
 // Path to wherever you put your service-account.json
 const serviceAccount = require('../service-account.json');
@@ -31,18 +32,19 @@ type Group = {
   name: string;
   descr: string;
   url: string;
-  admin: number;
-  users: number;
+  admin: string[];
+  users: string[];
 };
 
 const groups = db.collection('Groups');
 
-type event = {
+type Event = {
   name: string;
   descr: string;
   url: string;
-  admin: number;
-  users: number;
+  group: string;
+  admin: string[];
+  users: string[];
 };
 
 const events = db.collection('Events');
@@ -54,7 +56,7 @@ const events = db.collection('Events');
   type GroupWithID = Group & {
     id: string;
   };
-  type EventWithID = event & {
+  type EventWithID = Event & {
     id: string;
   };
 
@@ -75,16 +77,79 @@ app.get('/getUsers', async function (_, res) {
     user.id = doc.id;
     userlist.push(user);
   }
-  res.send(users);
+  res.send(userlist);
+});
+
+//read list of members in a group
+app.get('/getMembers/:id', async function (req, res) { //replace group? pass in ID
+  const id: string = req.params.id;
+  const thisgroup = await groups.doc(id).get();
+
+  const groupdata:GroupWithID = thisgroup.data() as GroupWithID;
+  const userlist: UserWithID[] = [];
+  for (let userid of groupdata.users) { //user is id number
+    let thisuser = await users.doc(userid).get();
+    let userdata:UserWithID = thisuser.data() as UserWithID;
+    userlist.push(userdata);
+  }
+  res.send(userlist);
+});
+
+//read list of admins in a group
+app.get('/getAdmins/:id', async function (req, res) { //replace group? pass in ID
+  const id: string = req.params.id;
+  const thisgroup = await groups.doc(id).get();
+  const groupdata:GroupWithID = thisgroup.data() as GroupWithID;
+  const adminlist: UserWithID[] = [];
+  for (let userid of groupdata.admin) { //user is id number
+    let thisuser = await users.doc(userid).get();
+    let userdata:UserWithID = thisuser.data() as UserWithID;
+    adminlist.push(userdata);
+  }
+  res.send(adminlist);
+});
+
+//read list of events in a group
+app.get('/getEvents/:id', async function (req, res) { 
+  const id: string = req.params.id;
+  const query = await events.where("group", "==", id).get();
+  const eventlist: EventWithID[] = [];
+  for (let doc of query.docs) {
+    let event: EventWithID = doc.data() as EventWithID;
+    event.id = doc.id;
+    eventlist.push(event);
+  }
+  res.send(eventlist);
 });
 
 
-//get list of users in group
-//get list of events in groupp
-//add event to group
-//add user to group
+//create event
+app.post('/createEvent/:id', function (req, res){ //id is group id
+  const id: string = req.params.id; //group id
+  const event: Event = req.body;
+  event.group = id;
+  const myDoc = events.doc();
+  myDoc.set(event);
+  res.send(myDoc.id);
+});
+
+// addusertogroup
+app.post('/addUsertoGroup/:userid', async function (req, res) {
+  const userid = req.body.userid;
+  const groupid = req.body.group; //group id
+  const thisgroup = await groups.doc(groupid).get();
+  const groupdata:GroupWithID = thisgroup.data() as GroupWithID;
+  groupdata.users.push(userid);
+  const thisuser = await users.doc(userid).get();
+  const userdata:UserWithID = thisuser.data() as UserWithID;
+  userdata.groups.push(groupid);
+  res.send('ADDED');
+});
+
+//Maybe will add...not sure yet
 //update event 
 //update group
+
 //delete group
 //delete event
 
