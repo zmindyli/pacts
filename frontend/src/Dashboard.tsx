@@ -7,21 +7,33 @@ type groupTileProps = {
   numEvents: number
 }
 
-const useStyles = makeStyles(() => createStyles({
+const useGridStyles = makeStyles(({ breakpoints }) => ({
   root: {
-    flexGrow: 1,
+    [breakpoints.up('md')]: {
+      justifyContent: 'center',
+    },
   },
+}));
+
+const useStyles = makeStyles(() => createStyles({
   card: {
-    maxWidth: 245,
-    minHeight: 150,
+    width: 250,
+    borderRadius: 16,
   },
+  actionArea: {
+    borderRadius: 16,
+    transition: '0.2s',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+  }
 }));
 
 const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
   const classes = useStyles();
   return (
-    <Card className={classes.card} variant={"outlined"}>
-      <CardActionArea>
+    <CardActionArea className={classes.actionArea}>
+      <Card className={classes.card}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {groupName}
@@ -30,33 +42,35 @@ const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
         <CardActions>
           <Button size="small">Create event</Button>
         </CardActions>
-      </CardActionArea>
-    </Card>
+      </Card>
+    </CardActionArea>
   );
 }
 // TODO: make type dashboardProps 
-// accepts user as a parameter?, should display all groups the user is part of
+// accepts user as a parameter?, should display all groups the user is part of 
 const Dashboard = () => {
-  const classes = useStyles();
+  //const classes = useStyles();
+  const gridStyles = useGridStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <Grid container
+        classes={gridStyles}
         wrap="nowrap"
-        spacing={0}
+        spacing={5}
         justify="center"
         direction="row"
       >
-        <Grid item xs={3}>
+        <Grid item>
           <GroupTile
             groupName={"DTI - Design & Tech"}
             numEvents={3} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item >
           <GroupTile
             groupName={"Science Olympiad"}
             numEvents={1} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item >
           <GroupTile
             groupName={"E.Motion"}
             numEvents={2} />
@@ -65,5 +79,4 @@ const Dashboard = () => {
     </div>
   );
 }
-
 export default Dashboard;
