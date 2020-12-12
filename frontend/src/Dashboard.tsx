@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardActionArea, CardActions, CardContent, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, CardActions, Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 type groupTileProps = {
@@ -8,42 +8,61 @@ type groupTileProps = {
 }
 
 const useStyles = makeStyles(() => createStyles({
+  root: {
+    flexGrow: 1,
+  },
   card: {
-    maxWidth: 345,
+    maxWidth: 245,
+    minHeight: 150,
   },
 }));
 
 const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
   const classes = useStyles();
   return (
-    // <div>
-    //   {groupName} has {numEvents} upcoming {numEvents > 1 ? "events" : "event"}
-    // </div>
-    <Card className={classes.card}>
+    <Card className={classes.card} variant={"outlined"}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {groupName}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
         </CardContent>
+        <CardActions>
+          <Button size="small">Create event</Button>
+        </CardActions>
       </CardActionArea>
-      <CardActions>
-
-      </CardActions>
     </Card>
   );
 }
 // TODO: make type dashboardProps 
 // accepts user as a parameter?, should display all groups the user is part of
 const Dashboard = () => {
+  const classes = useStyles();
   return (
-    <GroupTile
-      groupName={"DTI - Design & Tech"}
-      numEvents={3} />
+    <div className={classes.root}>
+      <Grid container
+        wrap="nowrap"
+        spacing={0}
+        justify="center"
+        direction="row"
+      >
+        <Grid item xs={3}>
+          <GroupTile
+            groupName={"DTI - Design & Tech"}
+            numEvents={3} />
+        </Grid>
+        <Grid item xs={3}>
+          <GroupTile
+            groupName={"Science Olympiad"}
+            numEvents={1} />
+        </Grid>
+        <Grid item xs={3}>
+          <GroupTile
+            groupName={"E.Motion"}
+            numEvents={2} />
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 
