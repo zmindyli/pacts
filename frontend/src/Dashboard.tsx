@@ -1,24 +1,25 @@
 import React from 'react';
-import { Card, CardActionArea, CardActions, CardContent, Typography, withStyles, createStyles } from '@material-ui/core';
+import { Card, CardActionArea, CardActions, CardContent, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 type groupTileProps = {
   groupName: string,
   numEvents: number
 }
 
-const styles = createStyles({
-  root: {
+const useStyles = makeStyles(() => createStyles({
+  card: {
     maxWidth: 345,
   },
-});
+}));
 
-// TODO: tile is still page width
-const GroupTile = withStyles(styles)(({ groupName, numEvents }: groupTileProps) => {
+const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
+  const classes = useStyles();
   return (
     // <div>
     //   {groupName} has {numEvents} upcoming {numEvents > 1 ? "events" : "event"}
     // </div>
-    <Card>
+    <Card className={classes.card}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -35,7 +36,7 @@ const GroupTile = withStyles(styles)(({ groupName, numEvents }: groupTileProps) 
       </CardActions>
     </Card>
   );
-});
+}
 // TODO: make type dashboardProps 
 // accepts user as a parameter?, should display all groups the user is part of
 const Dashboard = () => {
