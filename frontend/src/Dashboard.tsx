@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
+export const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
   const classes = useStyles();
   return (
     <CardActionArea className={classes.actionArea}>
@@ -48,7 +48,7 @@ const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
 }
 // TODO: make type dashboardProps 
 // accepts user as a parameter?, should display all groups the user is part of 
-const Dashboard = () => {
+export const Dashboard = () => {
   //const classes = useStyles();
   const gridStyles = useGridStyles();
   return (
