@@ -3,9 +3,10 @@ import { Card, CardActionArea, CardContent, CardActions, Typography, Grid, Butto
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 type groupTileProps = {
+  id: number,
   groupName: string,
   numEvents: number,
-  readonly callback: (page: string) => void
+  readonly callback: (pageId: number) => void
 }
 
 const useGridStyles = makeStyles(({ breakpoints }) => ({
@@ -30,10 +31,10 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-export const GroupTile = ({ groupName, numEvents, callback }: groupTileProps) => {
+export const GroupTile = ({ id, groupName, numEvents, callback }: groupTileProps) => {
   const classes = useStyles();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    callback("group");
+    callback(id);
   }
   return (
     <CardActionArea className={classes.actionArea} onClick={handleClick}>
@@ -52,7 +53,7 @@ export const GroupTile = ({ groupName, numEvents, callback }: groupTileProps) =>
 }
 
 type dashboardProps = {
-  readonly callback: (page: string) => void,
+  readonly callback: (pageId: number) => void,
 }
 // TODO: make type dashboardProps 
 // accepts user as a parameter?, should display all groups the user is part of 
@@ -70,18 +71,21 @@ export const Dashboard = ({ callback }: dashboardProps) => {
       >
         <Grid item>
           <GroupTile
+            id={1}
             groupName={"DTI - Design & Tech"}
             numEvents={3}
             callback={callback} />
         </Grid>
         <Grid item >
           <GroupTile
+            id={2}
             groupName={"Science Olympiad"}
             numEvents={1}
             callback={callback} />
         </Grid>
         <Grid item >
           <GroupTile
+            id={3}
             groupName={"E.Motion"}
             numEvents={2}
             callback={callback} />

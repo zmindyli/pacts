@@ -5,7 +5,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 type groupPageProps = {
   name: string,
   desc: string,
-  readonly callback: (page: string) => void;
+  readonly callback: (pageId: number) => void;
 }
 
 const useStyles = makeStyles(() => createStyles({
@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => createStyles({
 export const GroupPage = ({ name, desc, callback }: groupPageProps) => {
   const classes = useStyles();
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    callback("");
+    callback(0);
   }
   return (
     <Container maxWidth="md">
