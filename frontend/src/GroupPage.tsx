@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container, Paper, Typography } from '@material-ui/core';
+import { Container, Paper, Typography, Button, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 type groupPageProps = {
   name: string,
-  desc: string
+  desc: string,
+  readonly callback: (page: string) => void;
 }
 
 const useStyles = makeStyles(() => createStyles({
@@ -13,14 +14,29 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-export const GroupPage = ({ name, desc }: groupPageProps) => {
+export const GroupPage = ({ name, desc, callback }: groupPageProps) => {
   const classes = useStyles();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    callback("");
+  }
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Paper className={classes.header}>
-        <Typography variant="h3" gutterBottom={true}>
-          {name}
-        </Typography>
+        <Grid container
+          spacing={5}
+          justify="space-between"
+          alignItems="center"
+          direction="row"
+        >
+          <Grid item>
+            <Typography variant="h3" gutterBottom={true}>
+              {name}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button onClick={handleClick}>Close group</Button>
+          </Grid>
+        </Grid>
         <Typography>
           {desc}
         </Typography>

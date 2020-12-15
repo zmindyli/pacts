@@ -4,7 +4,8 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 type groupTileProps = {
   groupName: string,
-  numEvents: number
+  numEvents: number,
+  readonly callback: (page: string) => void
 }
 
 const useGridStyles = makeStyles(({ breakpoints }) => ({
@@ -29,10 +30,13 @@ const useStyles = makeStyles(() => createStyles({
   }
 }));
 
-export const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
+export const GroupTile = ({ groupName, numEvents, callback }: groupTileProps) => {
   const classes = useStyles();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    callback("group");
+  }
   return (
-    <CardActionArea className={classes.actionArea}>
+    <CardActionArea className={classes.actionArea} onClick={handleClick}>
       <Card className={classes.card}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
@@ -40,15 +44,19 @@ export const GroupTile = ({ groupName, numEvents }: groupTileProps) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Create event</Button>
+          <Button size="small" onClick={handleClick}>Create event</Button>
         </CardActions>
       </Card>
     </CardActionArea>
   );
 }
+
+type dashboardProps = {
+  readonly callback: (page: string) => void,
+}
 // TODO: make type dashboardProps 
 // accepts user as a parameter?, should display all groups the user is part of 
-export const Dashboard = () => {
+export const Dashboard = ({ callback }: dashboardProps) => {
   //const classes = useStyles();
   const gridStyles = useGridStyles();
   return (
@@ -63,17 +71,20 @@ export const Dashboard = () => {
         <Grid item>
           <GroupTile
             groupName={"DTI - Design & Tech"}
-            numEvents={3} />
+            numEvents={3}
+            callback={callback} />
         </Grid>
         <Grid item >
           <GroupTile
             groupName={"Science Olympiad"}
-            numEvents={1} />
+            numEvents={1}
+            callback={callback} />
         </Grid>
         <Grid item >
           <GroupTile
             groupName={"E.Motion"}
-            numEvents={2} />
+            numEvents={2}
+            callback={callback} />
         </Grid>
       </Grid>
     </div>
