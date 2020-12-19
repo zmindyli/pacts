@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardActionArea, CardContent, CardActions, Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import CreateGroupForm from './CreateGroup';
 
 type groupTileProps = {
   id: number,
@@ -91,6 +92,7 @@ export const Dashboard = ({ callback }: dashboardProps) => {
             callback={callback} />
         </Grid>
       </Grid>
+      <CreateGroupForm></CreateGroupForm>
     </div>
   );
 }
