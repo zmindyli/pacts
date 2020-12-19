@@ -92,8 +92,12 @@ export const Dashboard = ({ callback }: dashboardProps) => {
             callback={callback} />
         </Grid>
       </Grid>
-      <CreateGroupForm></CreateGroupForm>
-    </div>
+      <Grid container
+        spacing={2}
+        justify="flex-end">
+        <CreateGroupForm></CreateGroupForm>
+      </Grid>
+    </div >
   );
 }
 export default Dashboard;
