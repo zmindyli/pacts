@@ -61,7 +61,7 @@ const events = db.collection('Events');
   };
 
   // create a user
-app.post('/createSong', function (req, res){
+app.post('/createUser', function (req, res){
   const user:User = req.body;
   const myDoc = users.doc();
   myDoc.set(user);
